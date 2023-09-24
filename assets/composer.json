@@ -1,0 +1,10 @@
+{
+    "require": {
+        "smarty/smarty": "^4.3",
+        "jaxon-php/jaxon-core": "~4.3",
+        "squizlabs/php_codesniffer": "*"
+    },
+    "autoload": {
+        "classmap": ["../classes"]
+    }    
+}
