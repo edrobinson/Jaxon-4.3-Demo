@@ -10,7 +10,7 @@ The authors examples do HelloWorld in seperate files. This project consolidates 
 #### Installation:  
 1. Download the code and extract into you development system root.
 
-2. Install comp0er if not already there.  
+2. Install composer if not already there.  
 
 
 3. Navigate to the project assets folder and run composer install to add the dependencies.
