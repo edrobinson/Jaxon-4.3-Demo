@@ -8,11 +8,12 @@ This is accomplished by registering PHP functions, methods and classes with the 
 The authors examples do HelloWorld in seperate files. This project consolidates all of a page's code in a single class file.  
 
 #### Installation:  
-Download the code and extract into you development system root.
-  
-The project uses composer. I have it installed globally for convenience.
+1. Download the code and extract into you development system root.
 
-I have left all of the composer dependencied in the download.  
+2. Install comp0er if not already there.  
+
+
+3. Navigate to the project assets folder and run composer install to add the dependencies.
 
 #### Usage:  
 Navigate to the folder in your browser and the home page, the only page, should appear.  
