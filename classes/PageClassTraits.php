@@ -116,6 +116,24 @@ trait PageClassTraits
       //before checking canProcessRequest.
       return true;
     }
+
+    //Dispatch is registered with Jaxon in this class constructor
+    //and all client requeste con=me through it.
+    public function dispatch($func, $data = "")
+    {
+        $aArgs = func_get_args(); //Get the function's arguments
+        $sMethod = array_shift($aArgs); //Shift the method called off of the args array.
+
+        try {
+            $ref = new ReflectionMethod($this, $sMethod); //Method defined in this or extending class?
+        } catch (Exception $e) {
+            return $this->resp->alert(
+                "Error: Method $sMethod is not available."
+            ); //Oops...
+        }
+
+        return call_user_func_array([&$this, $sMethod], $aArgs); //Dispatch the called method passing the arguments
+    }    
    
   
 }
