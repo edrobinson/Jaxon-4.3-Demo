@@ -10,10 +10,16 @@ use function Jaxon\jaxon;
     It checks if there is a client request and services it.
     Otherwise, it just displays the page template.
     
-    NOTE the function hasBeenConstructed().
+    NOTE the function "hasBeenConstructed()."
     It stops the constructor from calling the
     Jaxon canProcessRequest() after the page load.
     This was causing runaways and other odd errors.
+    
+    We only register one class - dispatch - with Jaxon.
+    All client calls are directed to dispatch(), passing
+    a method name and optional parameters. Dispatch validates
+    the method and calls it. This is much cleaner than 
+    registering entire classes or directories.
  */
 
 class Index
@@ -27,21 +33,20 @@ class Index
         $this->jaxon = jaxon();
         $this->resp = jaxon()->newResponse();
         
-        //Is this a call after the page load?
+        //Already been constructed?
+        //If so return to prevent infinite loops...
         if($this->hasBeenConstructed()) return;
-
-        //The remaing code is only called at page load
         
-        $this->jaxon->register(Jaxon::CALLABLE_CLASS, Index::class);        
-
-        if ($this->jaxon->canProcessRequest()) {
-            $this->jaxon->processRequest();
-        } else {
-            $this->pageSetup();
+        //Register the dispatcher function - the only registered function.
+        $this->jaxon->register(Jaxon::CALLABLE_FUNCTION, "dispatch", ["class" => Index::class]);
+        if ($this->jaxon->canProcessRequest())
+        {   
+          $this->jaxon->processRequest();
+        }else{
+          $this->pageSetup();
         }
-    }
-      
-
+    }      
+    
     //Finish the template vars and display the page
     private function pageSetup()
     {
@@ -53,10 +58,11 @@ class Index
     }
 
 
+
     /*
       This method is called by the client passing in
       a message string.
-      The finction makes an HTML string containing the message
+      The function makes an HTML string containing the message
       and sends is back with a command to insert it into the
       div with id="target".
     */
